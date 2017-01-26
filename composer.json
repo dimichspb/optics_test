@@ -1,0 +1,12 @@
+{
+    "name": "dimichspb/test",
+    "description": "test task",
+    "authors": [
+        {
+            "name": "Dmitry Tarantin",
+            "email": "dimichspb@gmail.com"
+        }
+    ],
+    "require": {}
+}
+                  
