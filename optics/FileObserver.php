@@ -41,6 +41,8 @@ class FileObserver extends Observer
             throw new \Exception("Write of data store file $filePath failed.  Details:" . App::getLastError());
         }
 
+        echo 'Append log file...<br>';
+
         return $result;
 
     }

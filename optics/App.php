@@ -5,11 +5,11 @@ class App
 {
     public function run()
     {
-        echo "Hello, OpticsPlanet<br>";
+        echo "Hello, OpticsPlanet<br><br>";
 
         $this->driver();
 
-        echo "Finished!<br>";
+        echo "<br><br>Finished!";
     }
 
     //Helper function for printing out error information

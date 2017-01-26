@@ -45,6 +45,8 @@ class EmailObserver extends Observer
             throw new \Exception("Send email to $email failed.  Details:" . App::getLastError());
         }
 
+        echo 'Sending email...<br>';
+
         return $result;
     }
 

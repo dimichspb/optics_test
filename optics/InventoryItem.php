@@ -12,6 +12,8 @@ class InventoryItem extends Entity
         $current -= $numberShipped;
         $newData = $this->_data;
         $newData['qoh'] = $current;
+        echo 'SKU: ' . $this->sku . ' have shipped ' . $numberShipped . ' items<br>';
+
         $this->update($newData);
 
     }
@@ -19,7 +21,6 @@ class InventoryItem extends Entity
     //We received new items, update the count.
     public function itemsReceived($numberReceived)
     {
-
         $newData = $this->_data;
         $current = $this->qoh;
 
@@ -27,6 +28,8 @@ class InventoryItem extends Entity
             //notifyWareHouse();  //Not implemented yet.
             $newData['qoh'] = ++$current;
         }
+        echo 'SKU: ' . $this->sku . ' received ' . $numberReceived . ' items<br>';
+
         $this->update($newData);
     }
 
@@ -34,6 +37,8 @@ class InventoryItem extends Entity
     {
         $newData = $this->_data;
         $newData['salePrice'] = $salePrice;
+        echo 'SKU: ' . $this->sku . ' change price to ' . $salePrice . ' items<br>';
+
         $this->update($newData);
     }
 
