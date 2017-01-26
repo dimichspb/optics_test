@@ -7,6 +7,9 @@
             "email": "dimichspb@gmail.com"
         }
     ],
-    "require": {}
+    "require": {},
+    "autoload": {
+        "psr-4": {"optics\\": "optics/"}
+    }
 }
                   
