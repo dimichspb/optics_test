@@ -2,3 +2,5 @@
 .idea
 vendor
 composer.lock
+optics.log
+data_store_file.data
