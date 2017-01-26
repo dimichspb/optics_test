@@ -25,7 +25,7 @@ class InventoryItem extends Entity
 
         for($i = 1; $i <= $numberReceived; $i++) {
             //notifyWareHouse();  //Not implemented yet.
-            $newData['qoh'] = $current++;
+            $newData['qoh'] = ++$current;
         }
         $this->update($newData);
     }
