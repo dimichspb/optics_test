@@ -5,9 +5,25 @@ class FileObserver extends Observer
 {
     const LOG_FILENAME = 'optics.log';
 
-    protected function log(\SplSubject $subject)
+    protected function log(\SplSubject $subject, Entity $entity = null)
     {
-        $this->appendLogFile((array)$subject);
+        if ($this->filter($subject, $entity)) {
+            $this->appendLogFile([
+                'sku' => $entity->sku,
+                'qoh' => $entity->qoh,
+                'cost' => $entity->cost,
+                'salePrice' => $entity->salePrice,
+            ]);
+        }
+    }
+
+    private function filter(\SplSubject $subject, Entity $entity = null)
+    {
+        if (!$entity) {
+            return false;
+        }
+
+        return true;
     }
 
     private function appendLogFile($data)
@@ -16,8 +32,10 @@ class FileObserver extends Observer
             throw new \InvalidArgumentException('$data must be a string or an array');
         }
         $filePath = self::getLogFilePath();
-        
-        $result = file_put_contents($filePath, json_encode($data));
+
+        $logMessage = self::formatLogMessage($data);
+
+        $result = file_put_contents($filePath, $logMessage, FILE_APPEND);
 
         if ($result === null) {
             throw new \Exception("Write of data store file $filePath failed.  Details:" . App::getLastError());
@@ -25,6 +43,15 @@ class FileObserver extends Observer
 
         return $result;
 
+    }
+
+    private static function formatLogMessage($data)
+    {
+        if (!is_string($data) && !is_array($data)) {
+            throw new \InvalidArgumentException('$data must be a string or an array');
+        }
+
+        return (new \DateTime())->format('Y-m-d H:i:s') . json_encode($data) . PHP_EOL;
     }
 
     private static function getLogFilePath()

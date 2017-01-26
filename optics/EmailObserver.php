@@ -6,9 +6,25 @@ class EmailObserver extends Observer
     const EMAIL = 'notify@example.com';
     const SUBJECT = 'Notification';
 
-    protected function log(\SplSubject $subject)
+    protected function log(\SplSubject $subject, Entity $entity = null)
     {
-        $this->sendEmail((array)$subject);
+        if ($this->filter($subject, $entity)) {
+            $this->sendEmail([
+                'sku' => $entity->sku,
+                'qoh' => $entity->qoh,
+            ]);
+        }
+    }
+
+    private function filter(\SplSubject $subject, Entity $entity = null)
+    {
+        if (!$entity) {
+            return false;
+        }
+        if ($entity->qoh < 5) {
+            return true;
+        }
+        return false;
     }
 
     private function sendEmail($data)
@@ -19,8 +35,9 @@ class EmailObserver extends Observer
 
         $email = self::getEmailTo();
         $subject = self::getSubject();
-        $message = json_encode($data);
+        $message = self::formatLogMessage($data);
 
+        //avoid really send emails
         //$result = mail($email, $subject, $message);
         $result = true;
 
@@ -29,6 +46,15 @@ class EmailObserver extends Observer
         }
 
         return $result;
+    }
+
+    private static function formatLogMessage($data)
+    {
+        if (!is_string($data) && !is_array($data)) {
+            throw new \InvalidArgumentException('$data must be a string or an array');
+        }
+
+        return (new \DateTime())->format('Y-m-d H:i:s') . json_encode($data) . PHP_EOL;
     }
 
     private static function getEmailTo()

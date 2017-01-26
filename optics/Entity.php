@@ -32,7 +32,7 @@ abstract class Entity
             if (property_exists($this, $variableName)) {
                 $this->$variableName = $value;
             } else {
-                throw new Exception("Set failed. Class " . get_class($this) .
+                throw new \Exception("Set failed. Class " . get_class($this) .
                     " does not have a member named " . $variableName . ".");
             }
         }
@@ -41,14 +41,14 @@ abstract class Entity
     //getter for properies and items in the underlying data array
     public function __get($variableName)
     {
-        if (array_key_exists($variableName, array_change_key_case($this->getMembers()))) {
+        if (array_key_exists($variableName, $this->getMembers())) {
             $data = $this->read();
             return $data[$variableName];
         } else {
             if (property_exists($this, $variableName)) {
                 return $this->$variableName;
             } else {
-                throw new Exception("Get failed. Class " . get_class($this) .
+                throw new \Exception("Get failed. Class " . get_class($this) .
                     " does not have a member named " . $variableName . ".");
             }
         }

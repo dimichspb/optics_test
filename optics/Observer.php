@@ -12,11 +12,15 @@ abstract class Observer implements \SplObserver
 
     /**
      * @param \SplSubject $subject
+     * @param Entity $entity
      */
-    public function update(\SplSubject $subject)
+    public function update(\SplSubject $subject, Entity $entity = null)
     {
-        $this->_changedEntities[] = clone $subject;
-        $this->log($subject);
+        /** @var EntityManager $subject */
+        if ($entity) {
+            $this->_changedEntities[] = clone $entity;
+            $this->log($subject, $entity);
+        }
     }
 
     /**
@@ -27,5 +31,5 @@ abstract class Observer implements \SplObserver
         return $this->_changedEntities;
     }
 
-    abstract protected function log(\SplSubject $subject);
+    abstract protected function log(\SplSubject $subject, Entity $entity = null);
 }

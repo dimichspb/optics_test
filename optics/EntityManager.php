@@ -89,7 +89,7 @@ class EntityManager implements \SplSubject
             $this->_entityPrimaryToId[$newPrimary] = $entity->_id;
         }
         $entity->_data = $newData;
-        $this->notify();
+        $this->notify($entity);
 
         return $entity;
     }
@@ -138,13 +138,11 @@ class EntityManager implements \SplSubject
         $this->_observers->detach($observer);
     }
 
-    public function notify()
+    public function notify(Entity $entity = null)
     {
         /** @var \SplObserver $observer */
         foreach ($this->_observers as $observer) {
-            $observer->update($this);
+            $observer->update($this, $entity);
         }
     }
-
-
 }
